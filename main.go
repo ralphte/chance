@@ -1,14 +1,16 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"./login"
-	"strings"
-
+	"github.com/gorilla/mux"
+	"html/template"
+	"github.com/ralphte/chance/apps/profile"
+	"github.com/ralphte/chance/apps/login"
+	"github.com/ralphte/chance/apps/logout"
 	"os"
 )
+
 
 type justFilesFilesystem struct {
 	fs http.FileSystem
@@ -31,23 +33,19 @@ func (f neuteredReaddirFile) Readdir(count int) ([]os.FileInfo, error) {
 }
 
 
-
-func profile(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	fmt.Println(r.Form) // print information on server side.
-	fmt.Println("path", r.URL.Path)
-	fmt.Println("scheme", r.URL.Scheme)
-	fmt.Println(r.Form["url_long"])
-	for k, v := range r.Form {
-		fmt.Println("key:", k)
-		fmt.Println("val:", strings.Join(v, ""))
-	}
-	fmt.Fprintf(w, "Working Profile!") // write data to response
+func indexPage(w http.ResponseWriter, r *http.Request) {
+	t, _ := template.ParseFiles("template/login.html")
+	t.Execute(w, nil)
 }
 
+var router = mux.NewRouter()
+
 func main() {
-	http.HandleFunc("/", login.Login) // setting router rule
-	http.HandleFunc("/profile", profile)
+	router.HandleFunc("/", indexPage)
+	router.HandleFunc("/profile",profile.Profile)
+	router.HandleFunc("/login",login.Login).Methods("POST")
+	router.HandleFunc("/logout",logout.Logout).Methods("POST")
+	http.Handle("/", router)
 	fs := justFilesFilesystem{http.Dir("resources/")}
 	http.Handle("/resources/", http.StripPrefix("/resources/", http.FileServer(fs)))
 	err := http.ListenAndServe(":9090", nil) // setting listening port
