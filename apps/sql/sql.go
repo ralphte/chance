@@ -1,21 +1,72 @@
 package sql
 
 import (
-	"github.com/ziutek/mymysql/mysql"
-	_ "github.com/ziutek/mymysql/thrsafe"
-	"log"
+        _"github.com/go-sql-driver/mysql"
+        "database/sql"
 )
 
-type DataMng struct {
-	mysql.Conn
+func GetUserPassword(username string) string {
 
+        db, err := sql.Open("mysql", "chance_app:Cu46qNDytt2T@tcp(localhost:3306)/chance?charset=utf8")
+        checkErr(err)
+        defer db.Close()
+
+        rows, err := db.Query("SELECT password FROM users WHERE username = ? LIMIT 1", username)
+        checkErr(err)
+
+        var password string
+
+        for rows.Next() {
+                err := rows.Scan(&password)
+                checkErr(err)
+        }
+        return password
 }
 
-func NewDataMng() *DataMng {
-	conn:=mysql.New("tcp","","127.0.0.1:3306","root","root","golang_web")
-	err:=conn.Connect()
-	if err!=nil {
-		log.Println(err)
+func GetUserData(username string) (string, string, string) {
+
+        db, err := sql.Open("mysql", "chance_app:Cu46qNDytt2T@tcp(localhost:3306)/chance?charset=utf8")
+        checkErr(err)
+        defer db.Close()
+
+        rows, err := db.Query("SELECT firstname, lastname, email FROM users WHERE username = ? LIMIT 1", username)
+        checkErr(err)
+
+        var firstname string
+        var lastname string
+        var email string
+
+        for rows.Next() {
+                err := rows.Scan(&firstname, &lastname, &email)
+                checkErr(err)
+        }
+        return email, firstname, lastname
+}
+
+/*func UpdateUserData(username string, firstname string, lastname string, email string) (string) {
+
+	db, err := sql.Open("mysql", "chance_app:Cu46qNDytt2T@tcp(localhost:3306)/chance?charset=utf8")
+	checkErr(err)
+	defer db.Close()
+
+	rows, err := db.Prepare("update users set firstname, lastname, email set username=?", username)
+	checkErr(err)
+
+	var firstname string
+	var lastname string
+	var email string
+
+	for rows.Next() {
+		err := rows.Scan(&firstname, &lastname, &email)
+		checkErr(err)
 	}
-	return &DataMng{conn}
+	return email, firstname, lastname
+}
+*/
+
+
+func checkErr(err error) {
+        if err != nil {
+                panic(err)
+        }
 }

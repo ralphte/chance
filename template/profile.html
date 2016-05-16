@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../resources/css/style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="/resources/js/tabs.js"></script>
+    <script src="../resources/js/tabs.js"></script>
 
 </head>
 <body>
@@ -33,19 +33,19 @@
                 <table style="width:500px">
                 <tr>
                     <td>Username</td>
-                    <td>Sales</td>
+                    <td>{{.Username}}</td>
                 </tr>
                 <tr>
                     <td>First Name</td>
-                    <td>Admin</td>
+                    <td>{{.Firstname}}</td>
                 </tr>
                 <tr>
                     <td>Last Name</td>
-                    <td>Sales</td>
+                    <td>{{.Lastname}}</td>
                 </tr>
                 <tr>
                     <td>Email</td>
-                    <td>Sales</td>
+                    <td>{{.Email}}</td>
                 </tr>
                 </table>
                 </p>
@@ -55,15 +55,15 @@
                 <form action="/update" method="post">
                 <label for="firstname">Firstname</label>
                 <br/>
-                <input type="text" id="firstname" name="firstname">
+                <input type="text" id="firstname" name="firstname" value="{{.Firstname}}">
                 <br/>
                 <label for="lastname">Lastname</label>
                 <br/>
-                <input type="text" id="lastname" name="lastname">
+                <input type="text" id="lastname" name="lastname" value="{{.Lastname}}">
                 <br/>
                 <label for="email">Email</label>
                 <br/>
-                <input type="text" id="email" name="email">
+                <input type="text" id="email" name="email" value="{{.Email}}">
                 </form>
                 </p>
                 <button type="submit">Update Profile</button>
