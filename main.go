@@ -45,6 +45,7 @@ func main() {
 	router.HandleFunc("/profile",profile.Profile)
 	router.HandleFunc("/login",login.Login).Methods("POST")
 	router.HandleFunc("/logout",logout.Logout).Methods("POST")
+	router.HandleFunc("/update",profile.Update).Methods("POST")
 	http.Handle("/", router)
 	fs := justFilesFilesystem{http.Dir("resources/")}
 	http.Handle("/resources/", http.StripPrefix("/resources/", http.FileServer(fs)))

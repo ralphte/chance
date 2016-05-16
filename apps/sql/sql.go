@@ -3,6 +3,7 @@ package sql
 import (
         _"github.com/go-sql-driver/mysql"
         "database/sql"
+	"fmt"
 )
 
 func GetUserPassword(username string) string {
@@ -43,26 +44,26 @@ func GetUserData(username string) (string, string, string) {
         return email, firstname, lastname
 }
 
-/*func UpdateUserData(username string, firstname string, lastname string, email string) (string) {
+func UpdateUserData(username string, firstname string, lastname string, email string) (err error) {
 
 	db, err := sql.Open("mysql", "chance_app:Cu46qNDytt2T@tcp(localhost:3306)/chance?charset=utf8")
 	checkErr(err)
 	defer db.Close()
 
-	rows, err := db.Prepare("update users set firstname, lastname, email set username=?", username)
+	stmt, err := db.Prepare("update users set firstname=?, lastname=?, email=? where username=?")
 	checkErr(err)
 
-	var firstname string
-	var lastname string
-	var email string
+	res, err := stmt.Exec(firstname, lastname, email, username)
+	checkErr(err)
 
-	for rows.Next() {
-		err := rows.Scan(&firstname, &lastname, &email)
-		checkErr(err)
-	}
-	return email, firstname, lastname
+	affect, err := res.RowsAffected()
+	checkErr(err)
+
+	fmt.Println(affect)
+
+	return err
 }
-*/
+
 
 
 func checkErr(err error) {

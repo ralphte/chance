@@ -24,7 +24,7 @@
         </div>
         <ul class="tabs">
             <li><a href="#about">About Me</a></li>
-            <li><a href="#update">Update Profile</a></li>
+            <li><a href="#update1">Update Profile</a></li>
         </ul>
         <div class="clr"></div>
         <section class="block">
@@ -50,9 +50,9 @@
                 </table>
                 </p>
             </article>
-            <article id="update">
+            <article id="update1">
                 <p>
-                <form action="/update" method="post">
+                <form method="post" action="/update" >
                 <label for="firstname">Firstname</label>
                 <br/>
                 <input type="text" id="firstname" name="firstname" value="{{.Firstname}}">
@@ -64,9 +64,10 @@
                 <label for="email">Email</label>
                 <br/>
                 <input type="text" id="email" name="email" value="{{.Email}}">
-                </form>
                 </p>
-                <button type="submit">Update Profile</button>
+                <button type="submit">Update</button>
+                </p>
+                </form>
             </article>
         </section>
         <form method="post" action="/logout">
