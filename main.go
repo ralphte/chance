@@ -8,6 +8,7 @@ import (
 	"github.com/ralphte/chance/apps/profile"
 	"github.com/ralphte/chance/apps/login"
 	"github.com/ralphte/chance/apps/logout"
+	"github.com/ralphte/chance/apps/csrf"
 	"os"
 )
 
@@ -34,15 +35,25 @@ func (f neuteredReaddirFile) Readdir(count int) ([]os.FileInfo, error) {
 
 
 func indexPage(w http.ResponseWriter, r *http.Request) {
+	token := csrf.GenerateToken(32)
+	csrfToken := csrf.GetToken(r)
+	if csrfToken == "" {
+		csrf.SetToken(token, w)
+	}else{
+		csrf.ClearToken(w)
+		csrf.SetToken(token, w)
+	}
 	t, _ := template.ParseFiles("template/login.html")
-	t.Execute(w, nil)
+	t.Execute(w, token)
 }
+
 
 var router = mux.NewRouter()
 
 func main() {
+
 	router.HandleFunc("/", indexPage)
-	router.HandleFunc("/profile",profile.Profile)
+	router.HandleFunc("/profile",profile.Profile).Methods("GET")
 	router.HandleFunc("/login",login.Login).Methods("POST")
 	router.HandleFunc("/logout",logout.Logout).Methods("POST")
 	router.HandleFunc("/update",profile.Update).Methods("POST")

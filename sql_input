@@ -1,0 +1,22 @@
+CREATE DATABASE chance;
+
+CREATE USER 'chance_app'@'localhost' IDENTIFIED BY 'Cu46qNDytt2T';
+GRANT ALL PRIVILEGES ON chance . * TO 'chance_app'@'localhost';
+
+CREATE TABLE users (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+firstname VARCHAR(40),
+lastname VARCHAR(40),
+email VARCHAR(255),
+username VARCHAR(40),
+password VARCHAR(60));
+
+INSERT INTO `users` (`id`,`firstname`,`lastname`,`email`,`username`,`password`) VALUES (NULL, "Adam", "Smith", "mradam@hotmail.com", 'adam', '$2a$10$sP6lx6eUKw1CbBzlz42BzOS.6GTTJZPIfML8M7jnTutjBArISSR/K');
+
+INSERT INTO `users` (`id`,`firstname`,`lastname`,`email`,`username`,`password`) VALUES (NULL, "Mike", "Jones", "whomikejones@gmail.com", 'mike', '$2a$10$xfgChLT19KqWnacOzIfbKuCMk/mAFqXySyuDh.ebPk6MeMqju23ha');
+
+User: adam
+Password: Password!!
+
+User: mike
+Password: zFmdA36tGYbz
+
