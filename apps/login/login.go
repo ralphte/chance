@@ -36,6 +36,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
                                 fmt.Println ("Bad Password")
                                 http.Redirect(w, r, redirectTarget, 302)
                         }
+
+                }else{
+                        http.Redirect(w, r, redirectTarget, 302)
                 }
         }
 }
